@@ -63,7 +63,7 @@ public class BlogPost {
 
 1. **Query:** `GET /search?author=Author4000`
 2. **First Run (Cold Start):** `~880ms` (Overhead of loading index pages from disk to RAM).
-3. **Second Run (Warm Cache):** `~12ms` 🚀
+3. **Second Run (Warm Cache):** `~12ms` 
 4. **Why:** The database jumped directly to the relevant rows using the index tree, skipping 999,800 irrelevant rows.
 
 ---

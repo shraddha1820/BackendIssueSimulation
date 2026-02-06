@@ -25,7 +25,7 @@ public class LoadTester {
                 try {
                     // Lower the 'n' value if your computer freezes completely
                     HttpRequest request = HttpRequest.newBuilder()
-                            .uri(URI.create("http://localhost:8080/primes?n=10000")) 
+                            .uri(URI.create("http://localhost:8080/primes?n=50000")) 
                             .GET()
                             .build();
 

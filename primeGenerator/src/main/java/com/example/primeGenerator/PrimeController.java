@@ -1,38 +1,45 @@
 package com.example.primeGenerator;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 public class PrimeController {
 
+    @GetMapping("/health")
+    public String healthCheck() {
+        return "I am alive! " + System.currentTimeMillis();
+    }
+
+    // STEP 1: Change the return type to CompletableFuture
+    // This tells Spring: "I will give you the result later, go free up the thread now."
     @GetMapping("/primes")
-    public String getNthPrime(@RequestParam(defaultValue = "5000") int n) {
+    @Async("taskExecutor") // STEP 2: Tell Spring to run this in a separate thread pool
+    public CompletableFuture<String> getNthPrime(@RequestParam(defaultValue = "20000") int n) {
+        
         long startTime = System.currentTimeMillis();
         
-        // This is the "Blocking" operation
+        // This heavy work now happens on a "task-1", "task-2" thread, NOT "http-nio-8080-exec-1"
         long prime = calculatePrime(n);
         
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        
-        // We print the thread name so you can see only 10 threads (http-nio-8080-exec-1 to 10) working.
+        long duration = System.currentTimeMillis() - startTime;
         String log = String.format("Calculated %dth prime in %dms | Thread: %s", 
                 n, duration, Thread.currentThread().getName());
         
         System.out.println(log);
-        return log;
+        
+        // Return the result wrapped in a Future
+        return CompletableFuture.completedFuture(log);
     }
 
-    // Inefficient algorithm to deliberately burn CPU cycles
     private long calculatePrime(int n) {
         int count = 0;
         long num = 2;
         while (count < n) {
-            if (isPrime(num)) {
-                count++;
-            }
+            if (isPrime(num)) count++;
             num++;
         }
         return num - 1;

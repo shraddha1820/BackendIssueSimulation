@@ -1,9 +1,9 @@
-package main.java.com.example.db_test;
+package com.example.db_test;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "blog_posts")
+@Table(name = "blog_posts", indexes = @Index(name = "idx_author", columnList = "authorName"))
 public class BlogPost {
 
     @Id

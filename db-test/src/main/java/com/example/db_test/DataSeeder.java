@@ -1,4 +1,4 @@
-package main.java.com.example.db_test;
+package com.example.db_test;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.jdbc.core.JdbcTemplate;

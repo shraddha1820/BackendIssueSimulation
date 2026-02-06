@@ -1,4 +1,4 @@
-package main.java.com.example.db_test;
+package com.example.db_test;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.bind.annotation.GetMapping;

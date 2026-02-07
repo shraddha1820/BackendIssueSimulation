@@ -1,5 +1,6 @@
 package com.example.stockapi;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 // This class simulates the 3rd Party API. It sleeps for 2 seconds to mimic network latency.
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 public class StockService {
 
     // This method simulates fetching data from a slow external API (e.g., NYSE)
+    @Cacheable("prices")
     public String getStockPrice(String symbol) {
         System.out.println("⚠️ Fetching price for " + symbol + " from External API (SLOW)...");
         simulateSlowNetwork();
